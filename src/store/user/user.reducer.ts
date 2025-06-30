@@ -1,16 +1,43 @@
+import { AnyAction } from 'redux';
 import { USER_ACTION_TYPES } from './user.types.ts';
+import {
+  signInFailed,
+  signUpFailed,
+  signOutFailed,
+  signOutSuccess,
+  signInSuccess,
+} from './user.action.ts';
+import { UserData } from '../../utils/firebase/firebase.utils.ts';
 
-const INITIAL_STATE = {
-  currentUser: null,
+export type UserState = {
+  readonly currentUser: UserData | null;
+  readonly isLoading: boolean;
+  readonly error: Error | null;
 };
 
-export const userReducer = (state = INITIAL_STATE, action) => {
-  const { type, payload } = action;
+const INITIAL_STATE: UserState = {
+  currentUser: null,
+  isLoading: false,
+  error: null,
+};
 
-  switch (type) {
-    case USER_ACTION_TYPES.SET_CURRENT_USER:
-      return { ...state, currentUser: payload };
-    default:
-      return state;
+export const userReducer = (state = INITIAL_STATE, action: AnyAction) => {
+  if (signInSuccess.match(action)) {
+    return { ...state, currentUser: action.payload };
   }
+
+  if (signOutSuccess.match(action)) {
+    return { ...state, currentUser: null };
+  }
+
+  if (
+    signInFailed.match(action) ||
+    signUpFailed.match(action) ||
+    signOutFailed.match(action)
+  ) {
+    return { ...state, error: action.payload };
+  }
+
+  return state;
+  
 };
