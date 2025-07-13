@@ -5,7 +5,7 @@ import {
   selectCartTotal,
 } from '../../store/cart/cart.selector.ts';
 
-import CheckoutItem from '../../components/checkout-item/checkout-item.component';
+import CheckoutItem from '../../components/checkout-item/checkout-item.component.tsx';
 import PaymentForm from '../../components/payment-form/payment-form.component.tsx';
 import {
   CheckoutContainer,
